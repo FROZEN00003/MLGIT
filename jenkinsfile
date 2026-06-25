@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                git 'https://github.com/FROZEN00003/MLGIT.git'
+            }
+        }
+        stage('Test') {
+            steps {
+                bat 'docker build -t web-image-app .'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                bat 'docker run -d -p 8090:80 web-image-app'
+            }
+        }
+    }
+}
