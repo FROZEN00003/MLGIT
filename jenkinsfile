@@ -7,14 +7,23 @@ pipeline {
                 git 'https://github.com/FROZEN00003/MLGIT.git'
             }
         }
-        stage('Test') {
+
+        stage('Docker Check') {
             steps {
-                bat 'docker build -t web-image-app .'
+                bat 'wsl -d Ubuntu -- docker --version'
+                bat 'wsl -d Ubuntu -- docker ps'
             }
         }
+
+        stage('Test') {
+            steps {
+                bat 'wsl -d Ubuntu -- docker build -t web-image-app .'
+            }
+        }
+
         stage('Deploy') {
             steps {
-                bat 'docker run -d -p 8090:80 web-image-app'
+                bat 'wsl -d Ubuntu -- docker run -d -p 8090:80 web-image-app'
             }
         }
     }
